@@ -12,6 +12,7 @@ afterwards there should be a new folder, navigate to it using `cd wallet-bot` th
 - Rename `config_example.json` to `config.json` and paste your discord bot token in the token variable.
 - Run `npm install` in the console.
 - Run the bot with `node index.js` *Or any other runtime you have installed.*
-
+* Once the bot is up and running, use the `!setup` in your discord server.
+- Full list of commands can be found by running `!help` in your discord server.
 # Requirements:
 - NodeJS 8.0.0 or higher.
