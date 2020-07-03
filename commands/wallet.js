@@ -57,6 +57,6 @@ module.exports.options = {
 	enabled: true,
 	aliases: ['w'],
 	fullDescription:'Get the wallet value of your account or another user\'s',
-	usage:'w',
+	usage:'',
 	guildOnly: true,
 };

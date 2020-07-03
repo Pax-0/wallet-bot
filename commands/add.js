@@ -55,7 +55,7 @@ module.exports.options = {
 	description: 'Adds money to a user\'s wallet.',
 	enabled: true,
 	fullDescription:'Add funds to a user\'s wallet',
-	usage:'add user 10M',
+	usage:'user 10M',
 	guildOnly: true,
 	aliases: ['paid', 'p', 'a'],
 	requirements: {
