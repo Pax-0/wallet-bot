@@ -25,20 +25,35 @@ bot.on('ready', async () => { // When the bot is ready
 	await loadCommands('./commands');
 	await loadEvents('./events');
 	await loadDB(bot);
-	// await checkDBSettings(bot);
+	await checkDBSettings(bot);
 	console.log('Ready!'); // Log "Ready!"
-	let doc = await bot.db.users.findOne({});
-	console.log(doc); 
 });
 
 async function loadDB(bot){
 	const usersStore = Datastore.create('./data/users.db');
+	const settingsStore = Datastore.create('./data/settings.db');
 	bot.db = {
-		users: usersStore
+		users: usersStore,
+		settings: settingsStore
 	};
 	
 	await bot.db.users.load();
+	await bot.db.settings.load();
 	return console.log('Connected to DB!');
+}
+async function loadDefaultDbSettings(bot){
+	// users is used to store user-song links, the other props are self-explanatory.
+	const doc = {
+		setup: false,
+		rewardRoles: [],
+	}; // add the doc if it dosnt exist already.
+	await bot.db.settings.insert(doc);
+	return;
+}
+async function checkDBSettings(bot){
+	// Ensure the props/settings needed for the bot to work are in the db, if not add default ones.
+	const settings = await bot.db.settings.findOne({});
+	if(!settings) return loadDefaultDbSettings(bot);
 }
 
 async function loadEvents(dir){

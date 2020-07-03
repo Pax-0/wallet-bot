@@ -2,6 +2,9 @@ const bot = require('../index');
 
 module.exports.generator = async (msg, args) => {
 
+	const settings = await bot.db.settings.findOne({});
+	if(!settings || !settings.setup) return msg.channel.createMessage('bot settings not found.');
+
 	if(args.length){
 		// get another user's wallt
 		let user = resolveMember(args.join(' '), msg.channel.guild);

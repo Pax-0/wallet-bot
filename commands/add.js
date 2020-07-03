@@ -18,13 +18,19 @@ module.exports.generator = async (msg, args) => {
 		temp.pop();
 		amount = parseInt(temp.join(''));
 	}
-	console.log(amount);
+
+	let settings = await bot.db.settings.findOne({});
+	if(!settings || !settings.setup) return msg.channel.createMessage('Bot settings not found, run setup command first.');
+
+	let rewardRoles = settings.rewardRoles;
 	let wallet = await bot.db.users.findOne({id: user.id});
 	if(!wallet){
 		await bot.db.users.insert({id: user.id, amount: amount});
+		await enSureRewardRoles(rewardRoles, user);
 		return msg.channel.createMessage('Succesfully added funds.');
 	}else{
 		await bot.db.users.update({id: user.id}, { $inc: {amount: amount} }, {});
+		await enSureRewardRoles(rewardRoles, user, wallet);
 		return msg.channel.createMessage('Succesfully added funds.');
 	}
 };
@@ -33,12 +39,23 @@ function resolveMember(string, guild){
 
 	return member;
 }
+async function enSureRewardRoles(rewardRoles, member){
+	let userWallet = await bot.db.users.findOne({id : member.id});
+
+	for(const rewardRole of rewardRoles){
+		if( userWallet.amount < rewardRole.amount || member.roles.includes(rewardRole.id) ) continue;
+		await member.addRole(rewardRole.id);
+		// console.log('gave them role because ', rewardRole);
+		continue;
+	}
+	return;
+}
 module.exports.options = {
 	name: 'add',
 	description: 'Adds money to a user\'s wallet.',
 	enabled: true,
 	fullDescription:'Add funds to a user\'s wallet',
-	usage:'add unknown 10M',
+	usage:'add user 10M',
 	guildOnly: true,
 	aliases: ['paid', 'p', 'a'],
 	requirements: {
