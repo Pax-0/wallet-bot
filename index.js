@@ -9,11 +9,10 @@ const clientOptions = {
 	ignoreBots: true,
 	ignoreSelf: true
 };
-// db call here for prefix.
 const commandOptions = {
-	description: 'a log for attatchments.',
-	name: 'attatchment-log',
-	owner: 'Uproar',
+	description: 'a user wallet bot',
+	name: 'wallet-bot',
+	owner: 'Aory',
 	prefix: ['@mention', '!'],
 };
 
