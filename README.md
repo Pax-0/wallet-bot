@@ -1,6 +1,6 @@
 # Wallet bot
 
-this is a wallet bot.
+This bot has a few commands to create an in-bot reward system for creating and managing wallet accounts
 
 # Setup:
 - Firstly clone this repo where you plan to have the bot hosted as follows:
